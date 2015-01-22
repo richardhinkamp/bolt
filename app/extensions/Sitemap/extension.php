@@ -44,6 +44,9 @@ class Extension extends \Bolt\BaseExtension
         if (empty($this->config['ignore_contenttype'])) {
             $this->config['ignore_contenttype'] = array();
         }
+        if (empty($this->config['ignore'])) {
+            $this->config['ignore'] = array();
+        }
 
         // Set up the routes for the sitemap..
         $this->app->match("/sitemap", array($this, 'sitemap'));
@@ -69,13 +72,15 @@ class Extension extends \Bolt\BaseExtension
                     $baseDepth = 1;
                     $links[] = array( 'link' => $this->app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'], 'depth' => 1 );
                 }
-                $content = $this->app['storage']->getContent(
-                    $contenttype['slug'],
-                    array('limit' => 10000, 'order' => 'datepublish desc')
-                );
-                foreach( $content as $entry ) {
-                    $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(), 'depth' => $baseDepth + 1,
-                        'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
+                if (isset($contenttype['record_template'])) {
+                    $content = $this->app['storage']->getContent(
+                      $contenttype['slug'],
+                      array('limit' => 10000, 'order' => 'datepublish desc')
+                    );
+                    foreach ($content as $entry) {
+                        $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(), 'depth' => $baseDepth + 1,
+                          'lastmod' => date(\DateTime::W3C, strtotime($entry->get('datechanged'))));
+                    }
                 }
             }
         }
