@@ -48,6 +48,6 @@
 
 {% macro datepickervalue(date) %}{% spaceless %}
     {% if date > '1970-01-01 01:01:01' %}
-       {{ date|localdate('%A')|capitalize ~ date|date(', d') ~ date|localdate(' %B') ~ date|date(' Y') }}
+       {{ date|date('d') ~ date|date('-m') ~ date|date('-Y') }}
     {% endif %}
 {% endspaceless %}{% endmacro %}
