@@ -42,7 +42,7 @@ jQuery(function($) {
     });
 
     // Add Date and Timepickers..
-    $(".datepicker").datepicker({ dateFormat: "DD, d MM yy" });
+    $(".datepicker").datepicker({ dateFormat: "dd-mm-yy" });
 
     // initialize 'moment' timestamps..
     if ($('.moment').is('*')) {
