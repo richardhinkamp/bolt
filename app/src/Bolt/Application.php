@@ -490,6 +490,8 @@ class Application extends Silex\Application
                 $template = $content->template();
 
                 return $this['render']->render($template, $content->getTemplateContext());
+            } else if (substr($this['config']->get('general/notfound'), -5) == '.twig') {
+                return $this['render']->render($this['config']->get('general/notfound'));
             }
 
             $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
